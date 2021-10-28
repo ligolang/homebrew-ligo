@@ -3,12 +3,10 @@ class LigoNext < Formula
   homepage "https://ligolang.org/"
 
   version "e1bcb971b9f964bc927c9d12fcf377a1878c459f"
-  url "https://gitlab.com/ligolang/ligo/-/archive/e1bcb971b9f964bc927c9d12fcf377a1878c459f/ligo-e1bcb971b9f964bc927c9d12fcf377a1878c459f.tar.gz"
-  # Version is autoscanned from url, we don't specify it explicitly because `brew audit` will complain
-  # To calculate sha256: 'curl -L --fail <url> | sha256sum'
-  sha256 "e29f5e456f4e73872582f071108337a8e2e4c42bedc625e3147c8b582b9799ae"
+  # We clone repo explicitely to preserve the information about git submodules
+  url "https://gitlab.com/ligolang/ligo.git", revision: "e1bcb971b9f964bc927c9d12fcf377a1878c459f"
 
-  build_dependencies = %w[opam rust hidapi pkg-config]
+  build_dependencies = %w[opam rust hidapi pkg-config gnu-sed]
   build_dependencies.each do |dependency|
     depends_on dependency => :build
   end
@@ -32,11 +30,16 @@ class LigoNext < Formula
     # init opam state in ~/.opam
     system "opam", "init", "--bare", "--auto-setup", "--disable-sandboxing"
     # create opam switch with required ocaml version
-    system "opam", "switch", "create", ".", "ocaml-base-compiler.4.10.2", "--no-install"
-    # build and test external dependencies
-    system with_opam_env "opam install --deps-only --with-test --locked ./ligo.opam $(find vendors -name \\*.opam)"
-    # build vendored dependencies
-    system with_opam_env "opam install $(find vendors -name \\*.opam)"
+    system "scripts/setup_switch.sh"
+    # TODO: remowe workarounds below
+    # Required for Tezos hangzhou protocol
+    system "git", "submodule", "init"
+    # git pull doesn't work when checking out a specific revision :shrug:
+    system "git", "submodule", "update", "--recursive"
+    # Because sed has different options on MacOS >:(
+    system "gsed -i 's/sed/gsed/g' scripts/install_vendors_deps.sh"
+    # Build dependencies
+    system with_opam_env "scripts/install_vendors_deps.sh"
     # build ligo
     system with_opam_env "dune build -p ligo"
 
