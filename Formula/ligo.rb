@@ -5,7 +5,7 @@ class Ligo < Formula
   url "https://gitlab.com/ligolang/ligo/-/archive/0.28.0/ligo-0.28.0.tar.gz"
   # Version is autoscanned from url, we don't specify it explicitly because `brew audit` will complain
   # To calculate sha256: 'curl -L --fail <url> | sha256sum'
-  sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  sha256 "ffaeeb3ef6290fcf3d7a769493509c47faae275f2f8c1c11e4a6c3b1a27a3b1c"
 
   bottle do
     root_url "https://github.com/ligolang/homebrew-ligo/releases/download/v#{Ligo.version}"
