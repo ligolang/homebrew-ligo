@@ -18,8 +18,6 @@ class Ligo < Formula
     depends_on dependency => :build
   end
 
-  depends_on "opam" => [:build, "2.0.9"]
-
   dependencies = %w[gmp libev libffi]
   dependencies.each do |dependency|
     depends_on dependency
@@ -36,6 +34,8 @@ class Ligo < Formula
     # avoid opam prompts
     ENV["OPAMYES"] = "true"
 
+    # Install opam 2.0.9 because tezos doesn't work with 2.1.0 for some reason >:(
+    system "curl", "-L", "https://github.com/ocaml/opam/releases/download/2.0.9/opam-2.0.9-x86_64-macos", "--create-dirs", "-o", "#{ENV["HOME"]}/.opam-bin/opam"
     # init opam state in ~/.opam
     system "opam", "init", "--bare", "--auto-setup", "--disable-sandboxing"
     # create opam switch with required ocaml version
