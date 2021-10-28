@@ -38,16 +38,7 @@ class Ligo < Formula
     system "curl", "-L", "https://github.com/ocaml/opam/releases/download/2.0.9/opam-2.0.9-x86_64-macos", "--create-dirs", "-o", "#{ENV["HOME"]}/.opam-bin/opam"
     system "chmod", "+x", "#{ENV["HOME"]}/.opam-bin/opam"
     ENV["PATH"]="#{ENV["HOME"]}/.opam-bin:#{ENV["PATH"]}"
-    # init opam state in ~/.opam
-    system "opam", "init", "--bare", "--auto-setup", "--disable-sandboxing"
-    # create opam switch with required ocaml version
-    system "opam", "switch", "create", ".", "ocaml-base-compiler.4.10.2", "--no-install"
-    # build and test external dependencies
-    system with_opam_env "opam install --deps-only --with-test --locked ./ligo.opam $(find vendors -name \\*.opam)"
-    # build vendored dependencies
-    system with_opam_env "opam install $(find vendors -name \\*.opam)"
-    # build ligo
-    system with_opam_env "dune build -p ligo"
+    system "make", "build"
 
     # install ligo binary
     cp "_build/install/default/bin/ligo", "ligo"
