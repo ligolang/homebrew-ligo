@@ -13,10 +13,12 @@ class Ligo < Formula
     sha256 cellar: :any, mojave:   "d5ec10af35cac0d283f54553a3fe0cd48af4f0b640979cb2127bad99e2eafa4c"
   end
 
-  build_dependencies = %w[opam rust hidapi pkg-config]
+  build_dependencies = %w[rust hidapi pkg-config]
   build_dependencies.each do |dependency|
     depends_on dependency => :build
   end
+
+  depends_on "opam" => [:build, "2.0.9"]
 
   dependencies = %w[gmp libev libffi]
   dependencies.each do |dependency|
