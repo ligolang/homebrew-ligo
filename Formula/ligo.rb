@@ -36,6 +36,8 @@ class Ligo < Formula
 
     # Install opam 2.0.9 because tezos doesn't work with 2.1.0 for some reason >:(
     system "curl", "-L", "https://github.com/ocaml/opam/releases/download/2.0.9/opam-2.0.9-x86_64-macos", "--create-dirs", "-o", "#{ENV["HOME"]}/.opam-bin/opam"
+    system "chmod", "+x", "#{ENV["HOME"]}/.opam-bin/opam"
+    ENV["PATH"]="#{ENV["HOME"]}/.opam-bin:#{ENV["PATH"]}"
     # init opam state in ~/.opam
     system "opam", "init", "--bare", "--auto-setup", "--disable-sandboxing"
     # create opam switch with required ocaml version
