@@ -2,11 +2,11 @@ class LigoNext < Formula
   desc "Friendly Smart Contract Language for Tezos"
   homepage "https://ligolang.org/"
 
-  version "dd2be61d0a8ff38cc1b2697c160cd7ac47c48ece"
-  url "https://gitlab.com/ligolang/ligo/-/archive/dd2be61d0a8ff38cc1b2697c160cd7ac47c48ece/ligo-dd2be61d0a8ff38cc1b2697c160cd7ac47c48ece.tar.gz"
+  version "edeaa5b7b7adc69c65310c48fb73bb56de3a4735"
+  url "https://gitlab.com/ligolang/ligo/-/archive/edeaa5b7b7adc69c65310c48fb73bb56de3a4735/ligo-edeaa5b7b7adc69c65310c48fb73bb56de3a4735.tar.gz"
   # Version is autoscanned from url, we don't specify it explicitly because `brew audit` will complain
   # To calculate sha256: 'curl -L --fail <url> | sha256sum'
-  sha256 "8da0261670093e4dde776ddc48e6669dc2d2fa43f14b48f1bf1e38175846dcda"
+  sha256 "407325aeeb16bd8753366159604cf8e9a26a4bc2622f4b3220442f1ca9d20dac"
 
   build_dependencies = %w[opam rust hidapi pkg-config]
   build_dependencies.each do |dependency|
