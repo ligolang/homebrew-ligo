@@ -2,7 +2,7 @@ class Ligo < Formula
   desc "Friendly Smart Contract Language for Tezos"
   homepage "https://ligolang.org/"
 
-  url "https://gitlab.com/ligolang/ligo/-/archive/0.29.0/ligo-0.29.0.tar.gz"
+  url "https://gitlab.com/ligolang/ligo/-/archive/0.30.0/ligo-0.30.0.tar.gz"
   # Version is autoscanned from url, we don't specify it explicitly because `brew audit` will complain
   # To calculate sha256: 'curl -L --fail <url> | sha256sum'
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
