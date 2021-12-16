@@ -10,6 +10,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Install runtime dependencies
+        run: |
+          brew install jq coreutils gnu-sed
+          echo "$(brew --prefix)/opt/gnu-sed/libexec/gnubin" >> $GITHUB_PATH
+
       - name: Update Formula
         run: ./scripts/update-formula.sh
 

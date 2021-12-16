@@ -2,18 +2,14 @@ class Ligo < Formula
   desc "Friendly Smart Contract Language for Tezos"
   homepage "https://ligolang.org/"
 
-  url "https://gitlab.com/ligolang/ligo/-/archive/0.31.0/ligo-0.31.0.tar.gz"
-  # Version is autoscanned from url, we don't specify it explicitly because `brew audit` will complain
-  # To calculate sha256: 'curl -L --fail <url> | sha256sum'
-  sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  # We clone repo explicitely to preserve the information about git submodules
+  url "https://gitlab.com/ligolang/ligo.git", tag: "0.31.0", revision: "921934a9f54f9e10f7723bf5b61c1c79bbcc3a6e"
 
   bottle do
     root_url "https://github.com/ligolang/homebrew-ligo/releases/download/v#{Ligo.version}"
-    sha256 cellar: :any, catalina: "00d98308f7728e22be22115aaa2b6e0d7bd21fd3788276c0fc28f8371e1c78e5"
-    sha256 cellar: :any, mojave:   "d5ec10af35cac0d283f54553a3fe0cd48af4f0b640979cb2127bad99e2eafa4c"
   end
 
-  build_dependencies = %w[opam rust hidapi pkg-config]
+  build_dependencies = %w[opam rust hidapi pkg-config gnu-sed]
   build_dependencies.each do |dependency|
     depends_on dependency => :build
   end
@@ -37,11 +33,16 @@ class Ligo < Formula
     # init opam state in ~/.opam
     system "opam", "init", "--bare", "--auto-setup", "--disable-sandboxing"
     # create opam switch with required ocaml version
-    system "opam", "switch", "create", ".", "ocaml-base-compiler.4.10.2", "--no-install"
-    # build and test external dependencies
-    system with_opam_env "opam install --deps-only --with-test --locked ./ligo.opam $(find vendors -name \\*.opam)"
-    # build vendored dependencies
-    system with_opam_env "opam install $(find vendors -name \\*.opam)"
+    system "scripts/setup_switch.sh"
+    # TODO: remowe workarounds below and use the script provided by the ligo repo once
+    # a new version is released
+    # Required for Tezos hangzhou protocol
+    system "git", "submodule", "init"
+    system "git", "submodule", "update", "--recursive"
+    # Because sed has different options on MacOS >:(
+    system "gsed -i 's/sed/gsed/g' scripts/install_vendors_deps.sh"
+    # Build dependencies
+    system with_opam_env "scripts/install_vendors_deps.sh"
     # build ligo
     system with_opam_env "dune build -p ligo"
 
