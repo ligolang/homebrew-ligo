@@ -10,11 +10,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build and test
-        run: ./scripts/build-bottle.sh
+      # - name: Build and test
+      #   run: ./scripts/build-bottle.sh
 
       - name: Upload bottle to Github Actions
         uses: actions/upload-artifact@v2
         with:
           name: homebrew-bottles
           path: '*.bottle.*'
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          title: "New LIGO version release"
+          branch: master
+          commit-message: "Update to latest release"

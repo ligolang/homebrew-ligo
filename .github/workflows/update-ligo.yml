@@ -1,8 +1,11 @@
 name: Update ligo version
 on:
-  schedule:
-    # Update ligo every Thursday at 00:30 minute mark (github has a lot of jobs running every hour on the hour)
-    - cron:  "30 0 * * Thu"
+  # schedule:
+  #   # Update ligo every Thursday at 00:30 minute mark (github has a lot of jobs running every hour on the hour)
+  #   - cron:  "30 0 * * Thu"
+  push
+  #   branches: [master]
+  # pull_request:
 jobs:
   update-version:
     runs-on: macos-10.15
@@ -15,13 +18,12 @@ jobs:
           brew install jq coreutils gnu-sed
           echo "$(brew --prefix)/opt/gnu-sed/libexec/gnubin" >> $GITHUB_PATH
 
-      - name: Update Formula
-        run: ./scripts/update-formula.sh
+      # - name: Update Formula
+      #   run: ./scripts/update-formula.sh
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
-          add: 'Formula'
-          default_author: github_actions
-          message: "Update to latest release"
+          title: "New LIGO version release"
           branch: master
+          commit-message: "Update to latest release"
