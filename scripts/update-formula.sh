@@ -10,7 +10,7 @@ if [ "$current_release_name" = "$latest_release_name" ]; then
 else
     echo "New release detected, updating!"
 
-    sed -i '' -e "s|tag: \".*\", revision: \".*\"|tag: \"${latest_release_name}\", revision: \"${latest_release_revision}\"|g" Formula/ligo.rb
+    gsed -i "s|tag: \".*\", revision: \".*\"|tag: \"${latest_release_name}\", revision: \"${latest_release_revision}\"|g" Formula/ligo.rb
 fi
 
 latest_next_commit_hash="$(curl -X GET "https://gitlab.com/api/v4/projects/12294987/repository/commits" | jq --raw-output '.[0].id')"
@@ -20,5 +20,5 @@ if [ "$current_next_commit_hash" = "$latest_next_commit_hash" ]; then
     echo "Next is up to date, doing nothing"
 else
     echo "New commit detected, updating!"
-    sed -i '' -e "s|${current_next_commit_hash}|${latest_next_commit_hash}|g" Formula/ligo_next.rb
+    gsed -i "s|${current_next_commit_hash}|${latest_next_commit_hash}|g" Formula/ligo_next.rb
 fi
