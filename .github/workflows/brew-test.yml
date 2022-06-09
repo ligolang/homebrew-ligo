@@ -10,8 +10,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build and test
-        run: ./scripts/build-bottle.sh
+      # - name: Build and test
+      #   run: ./scripts/build-bottle.sh
 
       - name: Upload bottle to Github Actions
         uses: actions/upload-artifact@v2
