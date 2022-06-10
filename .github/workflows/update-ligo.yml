@@ -1,8 +1,11 @@
 name: Update ligo version
 on:
-  schedule:
-    # Every Thursday at 00:30. The 30 minute mark is chosen because github has a lot of jobs running every hour on the hour
-    - cron:  "30 0 * * Thu"
+#  schedule:
+#    # Every Thursday at 00:30. The 30 minute mark is chosen because github has a lot of jobs running every hour on the hour
+#    - cron:  "30 0 * * Thu"
+  push:
+    branches: [master]
+  pull_request:
 jobs:
   update-version:
     runs-on: macos-10.15
@@ -15,13 +18,18 @@ jobs:
           brew install jq coreutils gnu-sed
           echo "$(brew --prefix)/opt/gnu-sed/libexec/gnubin" >> $GITHUB_PATH
 
-      - name: Update Formula
-        run: ./scripts/update-formula.sh
+#      - name: Update Formula
+#        run: ./scripts/update-formula.sh
+
+      - name: Add test File
+        run: |
+          echo "Something" >> test.txt
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
           base: ${{ github.head_ref }}
+          branch: auto/ligo-update-bottles
           commit-message: Update ligo bottles
           title: "Update ligo bottles with the latest release"
           delete-branch: true
