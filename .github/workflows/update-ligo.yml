@@ -16,6 +16,8 @@ jobs:
       - name: Install runtime dependencies
         run: |
           brew install jq coreutils gnu-sed
+          brew install grep
+          brew install gnu-sed
           echo "$(brew --prefix)/opt/gnu-sed/libexec/gnubin" >> $GITHUB_PATH
 
       - name: Update Formula
