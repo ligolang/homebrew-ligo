@@ -3,7 +3,7 @@ class Ligo < Formula
   homepage "https://ligolang.org/"
 
   # We clone repo explicitely to preserve the information about git submodules
-  url "https://gitlab.com/ligolang/ligo.git", tag: "0.50.0", revision: "72058014480aeb021be530addcf93ac1386f7f4a"
+  url "https://gitlab.com/ligolang/ligo.git", tag: "0.53.0", revision: "00b6ab4f8dab15b123bcc6d6c7aa7e9bead08a56"
 
   bottle do
     root_url "https://github.com/ligolang/homebrew-ligo/releases/download/v#{Ligo.version}"
