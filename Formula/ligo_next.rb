@@ -2,9 +2,9 @@ class LigoNext < Formula
   desc "Friendly Smart Contract Language for Tezos"
   homepage "https://ligolang.org/"
 
-  version "d0257e08bed5ffa24730ca26c5dfab1cd53a38eb"
+  version "42f2c88ceb8605e0605dac59d4475157c59344f5"
   # We clone repo explicitely to preserve the information about git submodules
-  url "https://gitlab.com/ligolang/ligo.git", revision: "d0257e08bed5ffa24730ca26c5dfab1cd53a38eb"
+  url "https://gitlab.com/ligolang/ligo.git", revision: "42f2c88ceb8605e0605dac59d4475157c59344f5"
 
   build_dependencies = %w[opam rust hidapi pkg-config gnu-sed]
   build_dependencies.each do |dependency|
